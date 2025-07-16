@@ -1,1 +1,14 @@
-build
+build/
+*.d
+*.o
+*.ko
+*.obj
+*.elf
+*.ilk
+*.map
+*.exp
+*.exe
+*.out
+*.app
+*.hex
+*.dwo

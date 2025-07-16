@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "chrono": "c",
+        "cstdint": "c",
+        "system.h": "c",
+        "nvic.h": "c",
+        "rcc.h": "c"
+    }
+}

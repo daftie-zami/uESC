@@ -4,7 +4,11 @@ TARGET ?= default_target
 
 TARGETS := 
 
-# Q := @
+V ?= 0
+
+ifneq ($(V), 1)
+Q := @
+endif
 
 ROOT := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 BUILD_DIR  := $(ROOT)/build
