@@ -1,7 +1,8 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/rcc.h>
 #include "systick.h"
-
+#include "utils.h"
+#include "target.h"
 
 static void system_clock_setup(void){
 #if defined(STM32F0) // STM32F0xx family
@@ -25,9 +26,7 @@ int main(void)
 	system_init();
 
 	for (;;) {
-		delay_ms(1000); // Delay for 1 second
-		gpio_toggle(GPIOA, GPIO5); // Toggle GPIO pin PA5 (assuming it's configured as output)
-		// Add any other application logic here
+		delay_us(1000); //
 	}
 
 	return 0;

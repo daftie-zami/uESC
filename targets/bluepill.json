@@ -1,0 +1,16 @@
+{
+  "name": "bluepill",
+  "mcu": "STM32F103C8T6",
+  "family": "STM32F1",
+  "flash_kb": 64,
+  "ram_kb": 20,
+  "clock_hz": 72000000,
+
+  "clock_sources": {
+    "use_hse": true,
+    "hse_freq": 8000000,
+    "use_hsi": false,
+    "hsi_freq": 8000000
+  }
+}
+

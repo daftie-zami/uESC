@@ -8,7 +8,7 @@ OBJDUMP := $(CC_PREFIX)objdump
 SIZE    := $(CC_PREFIX)size
 GDB     := gdb-multiarch
 
-LDLIBS = -lnosys -L$(MODULE_DIR)/libopencm3/lib $(LIBOPENCM3)
+LDLIBS = -lnosys -lc -L$(MODULE_DIR)/libopencm3/lib $(LIBOPENCM3)
 
 TARGET_NAME := $(PROJECT)_$(TARGET)
 
@@ -42,7 +42,7 @@ CFLAGS = $(ARCH_FLAGS)\
     -MMD -MP
 
 OBJ := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(C_SRC))
-$(PROJECT): $(BIN) $(HEX) $(LIST) $(LSS)
+$(TARGET): $(BIN) $(HEX) $(LIST) $(LSS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo "$(GREEN)[CC] Compiling\t$(notdir $<)$(NO_COLOR)"

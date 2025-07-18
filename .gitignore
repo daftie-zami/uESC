@@ -12,3 +12,5 @@ build/
 *.app
 *.hex
 *.dwo
+.venv/
+target.h
