@@ -8,8 +8,7 @@ def generate_header(target_file, output_file):
         config = json.load(f)
 
     lines = [
-        "#ifndef TARGET_CONFIG_H",
-        "#define TARGET_CONFIG_H\n",
+        "#pragma once\n",
         f"// Auto-generated from {target_file}\n",
         f"#define MCU_MODEL           {config['mcu']}",
         f"#define MCU_FAMILY          {config['family']}",

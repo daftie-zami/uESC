@@ -23,25 +23,8 @@ TARGET_JSONS := $(wildcard $(TARGET_DIR)/*.json)
 TARGETS := $(notdir $(basename $(TARGET_JSONS)))
 
 include $(MAKE_DIR)/colors.mk
-include $(SRC_DIR)/bsp/platform/f031/f031.mk
+# include $(SRC_DIR)/bsp/platform/f031/f031.mk
 
-# ifeq ($(TARGET),)
-# $(error Please specify a TARGET. Available targets: $(TARGETS))
-# endif
-
-# # Check if TARGET is in TARGETS
-# ifneq ($(filter $(TARGET),$(TARGETS)), $(TARGET))
-# $(error Invalid TARGET '$(TARGET)'. Available targets: $(TARGETS))
-# endif
-
-# Source files
-C_SRC = $(shell find -L $(SRC_DIR) -name '*.c')
-
-# Include directories
-INC_DIR = $(shell find $(SRC_DIR) -type d) \
-	$(MODULE_DIR)/libopencm3/include
-
-# FIXME
 $(TARGETS):
 	@echo ">>> Building for target: $@"
 	$(MAKE) all TARGET=$@

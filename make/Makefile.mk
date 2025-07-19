@@ -10,6 +10,11 @@ GDB     := gdb-multiarch
 
 LDLIBS = -lnosys -lc -L$(MODULE_DIR)/libopencm3/lib $(LIBOPENCM3)
 
+C_SRC = $(shell find -L $(SRC_DIR) -name '*.c')
+
+INC_DIR = $(shell find $(SRC_DIR) -type d) \
+	$(MODULE_DIR)/libopencm3/include
+
 TARGET_NAME := $(PROJECT)_$(TARGET)
 
 ELF := $(BUILD_DIR)/$(TARGET_NAME).elf

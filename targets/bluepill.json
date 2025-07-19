@@ -1,7 +1,7 @@
 {
-  "name": "bluepill",
-  "mcu": "STM32F103C8T6",
-  "family": "STM32F1",
+  "board_name": "bluepill",
+  "mcu_name": "STM32F103C8T6",
+  "mcu_family": "STM32F1",
   "flash_kb": 64,
   "ram_kb": 20,
   "clock_hz": 72000000,
@@ -11,6 +11,25 @@
     "hse_freq": 8000000,
     "use_hsi": false,
     "hsi_freq": 8000000
+  },
+  
+  "peripherals": {
+    "uart": {
+      "enabled": true,
+      "default_baudrate": 115200
+    },
+    "i2c": {
+      "enabled": true,
+      "default_speed_khz": 100
+    },
+    "spi": {
+      "enabled": true,
+      "default_speed_mhz": 8
+    },
+    "adc": {
+      "enabled": true,
+      "default_resolution_bits": 12
+    }
   }
 }
 
