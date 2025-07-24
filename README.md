@@ -1,18 +1,34 @@
-Easy "clone and go" repository for a libopencm3 based project.
+# uESC
 
-# Instructions
- 1. git clone --recurse-submodules https://github.com/libopencm3/libopencm3-template.git your-project
- 2. cd your-project
- 3. make -C libopencm3 # (Only needed once)
- 4. make -C my-project
+**uESC** is an open-source motor ESC (Electronic Speed Controller) firmware project, released under the GNU General Public License (GPL).
 
-If you have an older git, or got ahead of yourself and skipped the ```--recurse-submodules```
-you can fix things by running ```git submodule update --init``` (This is only needed once)
+This project is currently in the **alpha stage** and is intended primarily for development and early testing.
 
-# Directories
-* my-project contains your application
-* my-common-code contains something shared.
+---
 
-# As a template
-You should replace this with your _own_ README if you are using this
-as a template.
+## Features
+
+- Open-source, community-driven ESC firmware
+- Modular codebase for easy customization
+- Currently supports development and building on **Linux** _(esp. Ubuntu)_ systems only
+- Simple setup and build process
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Linux-based operating system
+- Standard build tools (`make`, `arm-none-eabi-gcc`)
+- [libopencm3](https://libopencm3.org/) (handled by the setup script)
+<!-- - Other dependencies will be installed automatically -->
+
+### Setup
+
+Clone the repository and run the setup script:
+
+```sh
+git clone https://github.com/daftie-zami/uESC.git
+cd uESC
+./tools/setup_linux.sh
