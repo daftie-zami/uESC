@@ -1,0 +1,14 @@
+build/
+*.d
+*.o
+*.obj
+*.elf
+*.ilk
+*.map
+*.exe
+*.out
+*.app
+*.hex
+*.elf
+*.bin
+generated.*.ld
