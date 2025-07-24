@@ -1,7 +1,7 @@
 PROJECT := uESC
 TARGET ?=
-V ?= 0
-DEVICE ?=
+V ?= 1
+DEVICE ?= dummy_device
 # TODO: Make this configurable
 OOCD_FILE ?= board/stm32f4discovery.cfg
 
@@ -17,20 +17,21 @@ AFILES = $(shell find -L $(SRC_DIR) -name '*.S' -exec realpath --relative-to=. {
 INCLUDES += $(patsubst %,-I%, . $(shell find $(SRC_DIR) -type d))
 
 TARGETS := $(notdir $(basename $(wildcard $(TARGET_DIR)/*.json)))
-
-ifdef FAMILY
--include $(MAKE_DIR)/archflags_$(FAMILY).mk
-endifd
+$(info Available targets: $(TARGETS))
+# ifdef FAMILY
+# -include $(MAKE_DIR)/archflags_$(FAMILY).mk
+# endif
 
 $(TARGETS):
 	@if [ -z "$$NESTED_BUILD" ]; then \
 		if [ ! -f "$(TARGET_DIR)/$@.json" ]; then \
 			echo "No such target: $@.json"; exit 1; \
 		fi; \
-		echo "==> Building target: $@"; \
 		DEVICE=$$(grep -Po '"device"\s*:\s*"\K[^"]+' $(TARGET_DIR)/$@.json); \
 		FAMILY=$$(grep -Po '"family"\s*:\s*"\K[^"]+' $(TARGET_DIR)/$@.json); \
-		NESTED_BUILD=1 DEVICE=$$DEVICE FAMILY=$$FAMILY TARGET=$@ $(MAKE) $(MFLAGS) all; \
+		echo "DEVICE is: $$DEVICE"; \
+		echo "FAMILY is: $$FAMILY"; \
+		NESTED_BUILD=1 DEVICE=$$DEVICE FAMILY=$$FAMILY TARGET=$@ $(MAKE) $(MFLAGS) _make_target; \
 		exit $$?; \
 	fi
 
@@ -48,17 +49,10 @@ Q	:= @
 NULL	:= 2>/dev/null
 endif
 
-# Tool paths.
-PREFIX	?= arm-none-eabi-
-CC	= $(PREFIX)gcc
-CXX	= $(PREFIX)g++
-LD	= $(PREFIX)gcc
-OBJCOPY	= $(PREFIX)objcopy
-OBJDUMP	= $(PREFIX)objdump
-SIZE	= $(PREFIX)size
-OOCD	?= openocd
+include $(OPENCM3_DIR)/mk/gcc-config.mk
+OOCD	:= openocd
 
-INCLUDES += $(patsubst %,-I%, . $(OPENCM3_DIR)/include )
+INCLUDES += $(patsubst %,-I%, . $(OPENCM3_DIR)/include)
 
 OBJS = $(CFILES:%.c=$(BUILD_DIR)/%.o)
 OBJS += $(CXXFILES:%.cxx=$(BUILD_DIR)/%.o)
@@ -71,12 +65,7 @@ LSS := $(BUILD_DIR)/$(TARGET).lss
 MAP := $(BUILD_DIR)/$(TARGET).map
 LDSCRIPT := $(BUILD_DIR)/generated.$(DEVICE).ld
 
-GENERATED_BINS = $(ELF) $(BIN) $(MAP) $(LIST) $(LSS)
-
-TGT_CPPFLAGS += -MD
-TGT_CPPFLAGS += -Wall -Wundef $(INCLUDES)
-TGT_CPPFLAGS += $(INCLUDES) $(OPENCM3_DEFS)
-
+GENERATED_BINS = $(ELF) $(BIN) $(MAP) $(LIST) $(LSS) $(LDSCRIPT)
 
 TGT_CFLAGS += $(OPT) $(CSTD) -ggdb3
 TGT_CFLAGS += $(ARCH_FLAGS)
@@ -84,12 +73,6 @@ TGT_CFLAGS += -fno-common
 TGT_CFLAGS += -ffunction-sections -fdata-sections
 TGT_CFLAGS += -Wextra -Wshadow -Wno-unused-variable -Wimplicit-function-declaration
 TGT_CFLAGS += -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes
-
-TGT_CXXFLAGS += $(OPT) $(CXXSTD) -ggdb3
-TGT_CXXFLAGS += $(ARCH_FLAGS)
-TGT_CXXFLAGS += -fno-common
-TGT_CXXFLAGS += -ffunction-sections -fdata-sections
-TGT_CXXFLAGS += -Wextra -Wshadow -Wredundant-decls  -Weffc++
 
 TGT_ASFLAGS += $(OPT) $(ARCH_FLAGS) -ggdb3
 
@@ -111,40 +94,13 @@ endif
 #LDLIBS += -specs=nosys.specs
 LDLIBS += -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group
 
-# Burn in legacy hell fortran modula pascal yacc idontevenwat
-.SUFFIXES:
-.SUFFIXES: .c .S .h .o .cxx .elf .bin .list .lss
-
-# Bad make, never *ever* try to get a file out of source control by yourself.
-%: %,v
-%: RCS/%,v
-%: RCS/%
-%: s.%
-%: SCCS/s.%
-
-$(TARGET): $(BIN) $(HEX) $(LIST) $(LSS)
-
-# error if not using linker script generator
-ifeq (,$(DEVICE))
-$(LDSCRIPT):
-ifeq (,$(wildcard $(LDSCRIPT)))
-    $(error Unable to find specified linker script: $(LDSCRIPT))
-endif
-else
-# if linker script generator was used, make sure it's cleaned.
-GENERATED_BINS += $(LDSCRIPT)
-endif
+_make_target: $(BIN) $(HEX) $(LIST) $(LSS)
 
 # Compile rules.
 $(BUILD_DIR)/%.o: %.c
 	@printf "  CC      $(notdir $<)\n"
 	@mkdir -p $(dir $@)
 	$(Q)$(CC) $(TGT_CFLAGS) $(CFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $@ -c $<
-
-$(BUILD_DIR)/%.o: %.cxx
-	@printf "  CXX     $(notdir $<)\n"
-	@mkdir -p $(dir $@)
-	$(Q)$(CXX) $(TGT_CXXFLAGS) $(CXXFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 $(BUILD_DIR)/%.o: %.S
 	@printf "  AS      $(notdir $<)\n"
@@ -172,7 +128,16 @@ clean:
 	@printf "  CLEAN   $(BUILD_DIR)\n"
 	$(Q)rm -rf $(BUILD_DIR) $(GENERATED_BINS)
 
-.PHONY: clean flash $(TARGETS) all
+help:
+	@printf "  HELP    Makefile targets:\n"
+	@printf "  all     Build all targets\n"
+	@printf "  clean   Remove build directory and generated files\n"
+	@printf "  flash   Flash the target to the device using OpenOCD\n"
+	@printf "  $(TARGETS) Build the specified target\n"
+	@printf "  help    Show this help message\n"
+ 
+ .DEFAULT_GOAL := help
+.PHONY: clean flash $(TARGETS) all _make_target help
 -include $(OBJS:.o=.d)
 
 include $(OPENCM3_DIR)/mk/genlink-rules.mk
