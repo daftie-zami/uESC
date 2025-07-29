@@ -1,0 +1,5 @@
+1- Add LLVM complier and settings
+2- Add make all and compile all targets
+3- Add makefile help target
+4- FIX sysdiag.mk
+5- Add dynamic .svd file for debugging
