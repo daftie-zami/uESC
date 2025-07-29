@@ -54,6 +54,7 @@ DEVICE_SUFFIX := $(shell echo $(DEVICE) | sed 's/^.*\(.\{3\}\)$$/\1/')
 FLASH_SIZE_LETTER := $(shell echo $(DEVICE_SUFFIX) | cut -c1)
 LDSUFFIX := x$(FLASH_SIZE_LETTER)
 include $(SRC_DIR)/bsp/make/$(PLATFORM).mk
+LDSCRIPT := src/bsp/linker/$(LDSHORT)$(LDSUFFIX).ld
 endif
 
 # TODO

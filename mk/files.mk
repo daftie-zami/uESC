@@ -1,7 +1,5 @@
 # ---------------------------------------------------------
 
-LDSCRIPT ?= src/bsp/linker/stm32f103.ld
-
 APP_DIR = $(SRC_DIR)/app
 COMMON_DIR = $(SRC_DIR)/common
 BSP_DIR = $(SRC_DIR)/bsp

@@ -23,17 +23,17 @@ __attribute__((unused)) void tim_setup(void)
 	 * Set TIM1 channel output pins to
 	 * 'output alternate function push-pull'.
 	 */
-	gpio_setup_pin_af(PHASE_A_GPIO_HIGH_GPIO_Port,PHASE_A_GPIO_HIGH_Pin,GPIO_AF6, true);
-	gpio_setup_pin_af(PHASE_B_GPIO_HIGH_GPIO_Port,PHASE_B_GPIO_HIGH_Pin,GPIO_AF6, true);
-	gpio_setup_pin_af(PHASE_B_GPIO_HIGH_GPIO_Port,PHASE_C_GPIO_HIGH_Pin,GPIO_AF6, true);
+	gpio_setup_pin_af(PHASE_U_GPIO_HIGH_GPIO_Port,PHASE_U_GPIO_HIGH_Pin,GPIO_AF6, true);
+	gpio_setup_pin_af(PHASE_V_GPIO_HIGH_GPIO_Port,PHASE_V_GPIO_HIGH_Pin,GPIO_AF6, true);
+	gpio_setup_pin_af(PHASE_W_GPIO_HIGH_GPIO_Port,PHASE_W_GPIO_HIGH_Pin,GPIO_AF6, true);
 
 	/*
 	 * Set TIM1 complementary channel output pins to
 	 * 'output alternate function push-pull'.
 	 */
-	gpio_setup_pin_af(PHASE_A_GPIO_LOW_GPIO_Port,PHASE_A_GPIO_LOW_Pin,GPIO_AF6, true);
-	gpio_setup_pin_af(PHASE_B_GPIO_LOW_GPIO_Port,PHASE_B_GPIO_LOW_Pin,GPIO_AF6, true);
-	gpio_setup_pin_af(PHASE_B_GPIO_LOW_GPIO_Port,PHASE_C_GPIO_LOW_Pin,GPIO_AF6, true);
+	gpio_setup_pin_af(PHASE_U_GPIO_LOW_GPIO_Port,PHASE_U_GPIO_LOW_Pin,GPIO_AF6, true);
+	gpio_setup_pin_af(PHASE_V_GPIO_LOW_GPIO_Port,PHASE_V_GPIO_LOW_Pin,GPIO_AF6, true);
+	gpio_setup_pin_af(PHASE_W_GPIO_LOW_GPIO_Port,PHASE_W_GPIO_LOW_Pin,GPIO_AF6, true);
 
 	/* Enable TIM1 commutation interrupt. */
 	nvic_enable_irq(NVIC_TIM1_TRG_TIM17_IRQ);
@@ -184,10 +184,8 @@ int main(void) {
 
 	gpio_setup_output(LED_GPIO_Port,LED_Pin);
 
-	gpio_setup_pin_af(PHASE_A_GPIO_HIGH_GPIO_Port,PHASE_A_GPIO_HIGH_Pin,GPIO_AF6, true);
-
 	// tim_setup(); 
-
+ 
 	for (;;) {
 		gpio_toggle(LED_GPIO_Port,LED_Pin);
 		delay_us(20000);
