@@ -1,7 +1,7 @@
 #!/bin/sh
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 echo "Setting up the project in: $PROJECT_ROOT"
 cd "$PROJECT_ROOT" || {
@@ -16,7 +16,7 @@ git submodule update --init --recursive || {
 }
 
 echo "Building libopencm3 for project"
-make -C  libopencm3 || {
+make -C  libopencm3/ || {
     echo "Failed to build libopencm3." >&2
     exit 1
 }
