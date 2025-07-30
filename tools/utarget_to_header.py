@@ -35,31 +35,37 @@ def parse_utarget_file(path):
             line = line.strip()
             if not line or line.startswith('#'):
                 continue
+            if '#' in line:
+                line = line.split('#', 1)[0].strip()
 
             if '=' in line:
                 key, value = line.split('=', 1)
-                config[key.strip()] = value.strip()
+                key = key.strip()
+                value = value.strip()
+                if value == '':
+                    config[key] = None
+                else:
+                    config[key] = value
             else:
                 config[line] = None
+
     return config
+
 
 def write_target_header(config, output_path):
     with open(output_path, 'w') as f:
         f.write("// Auto-generated from .utarget file. DO NOT EDIT.\n\n")
         f.write("#pragma once\n\n")
+
         for key, value in config.items():
-            if key.startswith("USE_") and value is None:
-                f.write(f"#define {key}\n")
-            elif key.startswith("USE_"):
+            if key.startswith("USE_") and (value is None or value == "1"):
                 f.write(f"#define {key}\n")
             else:
-                f.write(f"#define {key:<20} {value}\n")
-        
-        motor_tim = config.get("MOTOR_TIM", "").strip() if config.get("MOTOR_TIM") else ""
+                f.write(f"#define {key:<26} {value}\n")
+        motor_tim = config.get("MOTOR_PWM_TIM", "").strip() if config.get("MOTOR_PWM_TIM") else ""
         if motor_tim:
-            f.write(f"#define MOTOR_TIM_RCC        RCC_{motor_tim}\n")
-        if motor_tim:
-            f.write(f"#define MOTOR_TIM_RST        RST_{motor_tim}\n")
+            f.write(f"#define MOTOR_PWM_TIM_RCC          RCC_{motor_tim}\n")
+            f.write(f"#define MOTOR_PWM_TIM_RST          RST_{motor_tim}\n")
 
 
 def main():

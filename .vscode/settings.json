@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "*.utarget": "ini",
+        "*.upin": "ini",
+        "scb.h": "c",
+        "stdint.h": "c",
+        "rcc.h": "c",
+        "timer.h": "c",
+        "cstdlib": "c"
+    }
+}
