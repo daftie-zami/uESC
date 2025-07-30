@@ -13,7 +13,7 @@ CFLAGS = $(ARCH_FLAGS) \
     $(addprefix -D,$(C_DEFINES)) \
     -D$(PLATFORM) \
     -std=gnu17 \
-    -ggdb3 -Oz \
+    -ggdb3 -O3 \
     -ffreestanding \
     -Wall -Wextra -Werror \
     -fdata-sections \

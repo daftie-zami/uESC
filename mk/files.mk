@@ -11,7 +11,8 @@ C_SRC = \
 	$(BSP_DIR)/system.c \
 	$(LIB_DIR)/hal/systick/hal_systick.c \
 	$(LIB_DIR)/hal/gpio/hal_gpio.c \
-	$(LIB_DIR)/hal/rcc/hal_rcc.c 
+	$(LIB_DIR)/hal/rcc/hal_rcc.c \
+	$(LIB_DIR)/motor/motor.c
 
 # Include directories
 INC_DIR = $(SRC_DIR) \
