@@ -13,7 +13,8 @@
             "configFiles": [
                 "${workspaceFolder}/build/openocd.cfg"
             ],
-            "internalConsoleOptions": "neverOpen",
+            "svdFile": "${workspaceFolder}/build/debug.svd",
+            "internalConsoleOptions": "neverOpen"
         }
     ]
 }

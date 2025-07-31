@@ -67,6 +67,7 @@ _target_prepare:
 	$(Q)$(call generate_utarget_header, $(TARGET_DIR)/$(TARGET)/$(TARGET).utarget)
 	$(Q)$(MAKE) --no-print-directory _target
 	$(Q)cp $(ELF) $(BUILD_DIR)/debug.elf
+	$(Q)cp $(SRC_DIR)/bsp/svd/$(LDSHORT).svd $(BUILD_DIR)/debug.svd
 
 $(TARGETS): %:
 	$(Q)$(MAKE) --no-print-directory TARGET=$@ _target_prepare

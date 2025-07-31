@@ -66,6 +66,13 @@ def write_target_header(config, output_path):
         if motor_tim:
             f.write(f"#define MOTOR_PWM_TIM_RCC          RCC_{motor_tim}\n")
             f.write(f"#define MOTOR_PWM_TIM_RST          RST_{motor_tim}\n")
+        pwm_tim = config.get("PWM_INPUT_TIM", "").strip() if config.get("PWM_INPUT_TIM") else ""
+        if pwm_tim:
+            f.write(f"#define PWM_INPUT_TIM_RCC          RCC_{pwm_tim}\n")
+            f.write(f"#define PWM_INPUT_TIM_RST          RST_{pwm_tim}\n")
+        console_uart = config.get("CONSOLE_UART", "").strip() if config.get("CONSOLE_UART") else ""
+        if console_uart:
+            f.write(f"#define CONSOLE_UART_RCC           RCC_{console_uart}\n")
 
 
 def main():

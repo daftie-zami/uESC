@@ -3,3 +3,4 @@
 3- Add makefile help target
 4- FIX sysdiag.mk
 5- Add dynamic .svd file for debugging
+6- !!!!!! Add af table genrator !!!!!!

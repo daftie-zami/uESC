@@ -20,7 +20,7 @@ This project is currently in the **beta stage** and is intended primarily for de
 ### Prerequisites
 
 - Linux-based operating system
-- Standard build tools (`make`, `arm-none-eabi-gcc`)
+- Standard tools (`make`, `arm-none-eabi-gcc`, `openocd`)
 - [libopencm3](https://libopencm3.org/) (handled by the setup script)
 <!-- - Other dependencies will be installed automatically -->
 

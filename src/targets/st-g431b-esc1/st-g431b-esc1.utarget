@@ -1,16 +1,17 @@
-# G474 utarget file
+# ST-disco G431 utarget file
 
-DEVICE = stm32g474ceu6
+FW_NAME = st_disco
+DEVICE = stm32g431cbu6
 PLATFORM = STM32G4
 
 USE_HSE = 1
 HSE_FREQ_MHZ = 8
 
-USE_CCM_RAM = 1
-
 # MOTOR_PWM_TIM must be advanced control timer (TIM1, TIM8, TIM20)
 MOTOR_PWM_TIM = TIM1
-MOTOR_PWM_DT = 10 # Dead Time
+MOTOR_PWM_FREQ = 10000 # Hz value 
+# Dead Time
+MOTOR_PWM_DT = 10 
 
 #INPUT METHOD
 USE_PWM_INPUT = 1
@@ -22,3 +23,6 @@ PWM_INPUT_TIM = TIM2
 
 # DRONE_CAN (TIM2, TIM3, TIM4, TIM5)
 DRONE_CAN = CAN1
+
+CONSOLE_UART = USART2
+CONSOLE_BAUD = 115200
