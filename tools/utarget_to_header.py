@@ -33,7 +33,7 @@ def parse_utarget_file(path):
     with open(path, 'r') as f:
         for line in f:
             line = line.strip()
-            if not line or line.startswith('#'):
+            if not line or line.startswith(('#', ';')):
                 continue
             if '#' in line:
                 line = line.split('#', 1)[0].strip()

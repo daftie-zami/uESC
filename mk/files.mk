@@ -12,7 +12,9 @@ C_SRC = \
 	$(LIB_DIR)/hal/systick/hal_systick.c \
 	$(LIB_DIR)/hal/gpio/hal_gpio.c \
 	$(LIB_DIR)/hal/rcc/hal_rcc.c \
-	$(LIB_DIR)/pwm_input/pwm_input.c
+	$(LIB_DIR)/pwm_input/pwm_input.c \
+	$(LIB_DIR)/dshot/dshot.c \
+	$(APP_DIR)/pwm_output.c
 
 # Include directories
 INC_DIR = $(SRC_DIR) \

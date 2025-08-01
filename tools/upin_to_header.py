@@ -20,7 +20,7 @@ def parse_upin_file(file_path):
     with open(file_path, 'r') as f:
         for line in f:
             line = line.strip()
-            if not line or line.startswith("#"):
+            if not line or line.startswith(('#', ';')):
                 continue
             if "=" in line:
                 key, value = line.split("=", 1)
@@ -47,8 +47,8 @@ def generate_header(defines, header_path):
             pin_info = split_pin(value)
             if pin_info:
                 port, pin = pin_info
-                f.write(f"#define {key}_GPIO_Port   {port}\n")
-                f.write(f"#define {key}_Pin         {pin}\n")
+                f.write(f"#define {key}_GPIO_Port        {port}\n")
+                f.write(f"#define {key}_Pin              {pin}\n")
                 
             else:
                 f.write(f"#define {key} {value}\n")
